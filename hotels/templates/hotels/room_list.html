@@ -1,0 +1,54 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<style>
+    .list{
+        display:grid;
+        grid-template-columns:50% 80%;
+    }
+</style>
+
+<div class="list">
+
+    <div>
+        <h3>Category Rooms</h3>
+        <hr>
+
+        <form method="get" action="">
+            <input type="text" name="q" placeholder="Search Room">
+        </form>
+
+        <div>
+            <a href="{% url 'room_list' %}">All</a>
+        </div>
+
+
+        {% for category in categories %}
+            <div>
+                <a href="{% url 'room_list' %}?q={{category.name}}">{{category.name}}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        <h5>{{room_count}} rooms available</h5>
+        <a href = "{% url 'create-room' %}">Create Room</a>
+        <div class="card-container">
+            {% for room in rooms %}
+            <a href = "{% url 'update-room' room.id %}">Edit Room</a>
+            <a href= "{% url 'delete-room' room.id %}">Delete Room</a>
+                <div class="card" style="width: 25rem;">
+                    <img src="{{room.picture.url}}">
+                    <div class="card-body">
+                      <h3 class="card-text">{{room.name}}</h3>
+                      <p class="card-text">Numri i personave:{{room.size}}</p>
+                      <p class="card-text">Price:{{room.price}}$</p>
+                      <h5><a href="{% url 'room_details' room.id %}">More</a></h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
