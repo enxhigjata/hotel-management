@@ -6,8 +6,7 @@ from imagekit.processors import ResizeToFill
 
 
 class Hotel(models.Model):
-    name = models.CharField(max_length=250)
-    address = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=250, null=True)
     stars = models.IntegerField(default=1)
 
     def __str__(self):
@@ -25,17 +24,36 @@ class Category(models.Model):
         verbose_name = "category"
         verbose_name_plural = "categories"
 
+class Restaurant(models.Model):
+    category=models.CharField(max_length=25)
+    title=models.CharField(max_length=50)
+    description=models.CharField(max_length=250)
+    picture = models.ImageField(upload_to="images/")
+    picture_thumbnail = ImageSpecField(
+        source="picture",
+        processors=[ResizeToFill(350, 200)],
+        format="JPEG",
+        options={"quality": 60},
+    )
+
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "restaurant"
+        verbose_name_plural = "restaurants"
 
 class Room(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=250)
+    room_number = models.CharField(max_length=250)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     options = models.TextField(max_length=250, null=True)
     picture = models.ImageField(upload_to="images/")
     picture_thumbnail = ImageSpecField(
         source="picture",
-        processors=[ResizeToFill(100, 50)],
+        processors=[ResizeToFill(350, 200)],
         format="JPEG",
         options={"quality": 60},
     )
@@ -46,7 +64,7 @@ class Room(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.room_number
 
     class Meta:
         verbose_name = "room"

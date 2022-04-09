@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block content %}
+<style>
+.main_home > img {
+    position:relative;
+  }
+img{
+    width:100%;
+}
+.text{
+position: absolute;
+top: 90%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size:250%;
+font-weight:bold;
+color:red;
+background-color:rgb(0 , 0 ,0);
+width:88.5%;
+text-align:center;
+}
+</style>
+<div class="main-photo">
+    <div class="photo_home">
+      <img src="{% static 'image/restorant.png'%}">
+    </div>
+    <div class="text">Restaurant Bar</div>
+</div>
+{% for restaurant in restaurants %}
+    {% if forloop.counter0|divisibleby:2 %}
+        {% include 'hotels/_restaurant_left.html' %}
+    {% else %}
+        {% include 'hotels/_restaurant_right.html' %}
+    {% endif %}
+{% endfor %}
+
+
+{% endblock %}

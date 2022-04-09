@@ -1,12 +1,15 @@
 from django.contrib import admin
 
-from .models import Room, Review, Category, Hotel, Booking
+from .models import Room, Review, Category, Hotel, Booking, Restaurant
 
 
 @admin.register(Hotel)
 class HotelAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Restaurant)
+class RestaurantAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):

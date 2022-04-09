@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<style>
+  .photo_home > img {
+    width:100%;
+    position:relative;
+  }
+  .text{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:250%;
+    font-weight:bold;
+    color:red;
+    background-color:rgb(0 , 0 ,0);
+    width:88.5%;
+    text-align:center;
+  }
+.a{
+  text-align:center;
+  font-size:200%;
+  font-weight:bold;
+}
+a{
+  text-decoration:none;
+  text-transform: uppercase;
+}
+</style>
+
+<div class="main-photo">
+  <div class="photo_home">
+    <img src="{% static 'image/photo_home.png'%}">
+  </div>
+  <div class="text">BOOK NOW</div>
+</div>
+<a href=""><p  class="a">Rooms and Suites</a>
+  {% for room in rooms %}
+    {% if forloop.counter0|divisibleby:2 %}
+      {% include 'hotels/_photo_left.html' %}
+    {% else %}
+      {% include 'hotels/_photo_right.html' %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

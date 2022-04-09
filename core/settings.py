@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "imagekit",
     # local apps
-    "pages",
     "users",
     "hotels",
 ]
@@ -83,7 +82,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME":
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",

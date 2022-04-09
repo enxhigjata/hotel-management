@@ -2,19 +2,23 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.shortcuts import redirect
 
-from .models import Room, Category, Review
+from .models import Room, Category, Review , Restaurant
 from .forms import ReviewForm, RoomForm
 
+def home(request):
+    rooms = Room.objects.all()
+    context = {"rooms": rooms}
+    return render(request, 'hotels/home.html', context)
 
-def room_list(request):
+def accommodation(request):
     q = request.GET.get("q") if request.GET.get("q") is not None else ""
     rooms = Room.objects.filter(
-        Q(category__name__icontains=q) | Q(name__icontains=q) | Q(size__icontains=q)
+        Q(category__name__icontains=q) | Q(room_number__icontains=q) | Q(size__icontains=q)
     )
     categories = Category.objects.all()
     room_count = rooms.count()
     context = {"rooms": rooms, "categories": categories, "room_count": room_count}
-    return render(request, "hotels/room_list.html", context)
+    return render(request, "hotels/accommodation.html", context)
 
 
 def room_details(request, pk):
@@ -30,10 +34,15 @@ def room_details(request, pk):
                 comment=form.cleaned_data["comment"],
             )
             review.save()
-            return redirect("room_list")
+            return redirect("accommodation")
     context = {"room": room, "reviews": reviews, "form": form}
     return render(request, "hotels/room_details.html", context)
 
+
+def restaurant(request):
+    restaurants = Restaurant.objects.all()
+    context = {"restaurants": restaurants}
+    return render(request, "hotels/restaurant_bar.html",context)
 
 def create_room(request):
     form = RoomForm()
@@ -41,7 +50,7 @@ def create_room(request):
         form = RoomForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("room_list")
+            return redirect("accommodation")
     context = {"form": form}
     return render(request, "hotels/room_form.html", context)
 
@@ -53,7 +62,7 @@ def update_room(request, pk):
         form = RoomForm(request.POST, instance=room)
         if form.is_valid():
             form.save()
-            return redirect("room_list")
+            return redirect("accommodation")
     context = {"form": form}
     return render(request, "hotels/room_form.html", context)
 
@@ -64,3 +73,7 @@ def delete_room(request, pk):
         room.delete()
         return redirect("home")
     return render(request, "hotels/delete.html", {"obj": room})
+
+
+def contact(request):
+    return render(request, 'hotels/contact.html')

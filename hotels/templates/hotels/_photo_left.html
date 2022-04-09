@@ -1,14 +1,22 @@
-<div class="card mb-3">
-    <div class="row">
+<style>
+  .card-title {
+    font-size:220%;
+  }
+
+</style>
+
+<div class="card text-center mb-1">
+    <div class="row ">
       <div class="col-md-4">
-        <img src="{{ room.picture.url }}" class="img-fluid rounded-start" alt="...">
+        <img src="{{ room.picture_thumbnail.url }}" alt="...">
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h3 class="card-title">{{room.name}}</h3>
+          <h3 class="card-title">{{room.category}}</h3>
           <p class="card-text">{{room.description}}</p>
           <h5><a href="{% url 'room_details' room.id %}">More</a></h5>
         </div>
       </div>
     </div>
 </div>
+
