@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from django.db.models import Q
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
-from .models import Room, Category, Review , Restaurant
-from .forms import ReviewForm, RoomForm
+from .models import Room, Category, Review, Restaurant
+from .forms import ContactForm, ReviewForm, RoomForm
+from django.core.mail import send_mail
+from django.conf import settings
+from django.views.generic import FormView, TemplateView
 
 def home(request):
     rooms = Room.objects.all()
     context = {"rooms": rooms}
     return render(request, 'hotels/home.html', context)
+
 
 def accommodation(request):
     q = request.GET.get("q") if request.GET.get("q") is not None else ""
@@ -42,7 +47,8 @@ def room_details(request, pk):
 def restaurant(request):
     restaurants = Restaurant.objects.all()
     context = {"restaurants": restaurants}
-    return render(request, "hotels/restaurant_bar.html",context)
+    return render(request, "hotels/restaurant_bar.html", context)
+
 
 def create_room(request):
     form = RoomForm()
@@ -75,5 +81,23 @@ def delete_room(request, pk):
     return render(request, "hotels/delete.html", {"obj": room})
 
 
-def contact(request):
-    return render(request, 'hotels/contact.html')
+class ContactView(FormView):
+    template_name = 'hotels/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('hotels:success')
+
+    def form_valid(self, form):
+        # Calls the custom send method
+        if request.method == 'POST':
+            form = ContactForm(request.POST)
+        if form.is_valid():
+            form.send()
+            return redirect('contact:success')
+        else:
+            form = ContactForm()
+            form.send()
+        return super().form_valid(form)
+
+
+class ContactSuccessView(TemplateView):
+    template_name = 'hotels/success.html'

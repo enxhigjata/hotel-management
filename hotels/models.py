@@ -24,10 +24,11 @@ class Category(models.Model):
         verbose_name = "category"
         verbose_name_plural = "categories"
 
+
 class Restaurant(models.Model):
-    category=models.CharField(max_length=25)
-    title=models.CharField(max_length=50)
-    description=models.CharField(max_length=250)
+    category = models.CharField(max_length=25)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=250)
     picture = models.ImageField(upload_to="images/")
     picture_thumbnail = ImageSpecField(
         source="picture",
@@ -36,13 +37,13 @@ class Restaurant(models.Model):
         options={"quality": 60},
     )
 
-
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name = "restaurant"
         verbose_name_plural = "restaurants"
+
 
 class Room(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
@@ -105,3 +106,10 @@ class Booking(models.Model):
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField
+    phone = models.CharField
+    message = models.CharField(max_length=250)
