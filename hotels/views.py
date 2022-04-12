@@ -9,16 +9,19 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.views.generic import FormView, TemplateView
 
+
 def home(request):
     rooms = Room.objects.all()
     context = {"rooms": rooms}
-    return render(request, 'hotels/home.html', context)
+    return render(request, "hotels/home.html", context)
 
 
 def accommodation(request):
     q = request.GET.get("q") if request.GET.get("q") is not None else ""
     rooms = Room.objects.filter(
-        Q(category__name__icontains=q) | Q(room_number__icontains=q) | Q(size__icontains=q)
+        Q(category__name__icontains=q)
+        | Q(room_number__icontains=q)
+        | Q(size__icontains=q)
     )
     categories = Category.objects.all()
     room_count = rooms.count()
@@ -82,22 +85,14 @@ def delete_room(request, pk):
 
 
 class ContactView(FormView):
-    template_name = 'hotels/contact.html'
+    template_name = "hotels/contact.html"
     form_class = ContactForm
-    success_url = reverse_lazy('hotels:success')
+    success_url = reverse_lazy("contact")
 
     def form_valid(self, form):
-        # Calls the custom send method
-        if request.method == 'POST':
-            form = ContactForm(request.POST)
-        if form.is_valid():
-            form.send()
-            return redirect('contact:success')
-        else:
-            form = ContactForm()
-            form.send()
+        form.send_email()
         return super().form_valid(form)
 
 
 class ContactSuccessView(TemplateView):
-    template_name = 'hotels/success.html'
+    template_name = "hotels/success.html"

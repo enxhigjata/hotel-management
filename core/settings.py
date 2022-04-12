@@ -1,11 +1,14 @@
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
+
+
+env = environ.Env()
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+env.read_env(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-86(g-(76@_v(+e9_+ah-+n(&@(29hv@j6q675sx&58xx1u65s%"
@@ -29,7 +32,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "debug_toolbar",
     "imagekit",
-    'crispy_forms',
+    "crispy_forms",
+    "crispy_bootstrap5",
     # local apps
     "users",
     "hotels",
@@ -83,8 +87,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME":
-            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -128,19 +131,19 @@ AUTH_USER_MODEL = "users.User"
 
 INTERNAL_IPS = ["127.0.0.1"]
 
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 
 # Previous settings ...
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 
 # Custom setting. To email
-RECIPIENT_ADDRESS = env('RECIPIENT_ADDRESS')
+RECIPIENT_ADDRESS = env("RECIPIENT_ADDRESS")
+
+# crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

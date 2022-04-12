@@ -19,32 +19,20 @@ class ReviewForm(forms.Form):
 
 
 class ContactForm(forms.Form):
-
     name = forms.CharField(max_length=120)
     phone = forms.CharField(max_length=70)
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
 
-    def get_info(self):
-        cl_data = super().clean()
-
-        name = cl_data.get('name').strip()
-        from_email = cl_data.get('email')
-        subject = cl_data.get('phone')
-
-        msg = f'{name} with email {from_email} said:'
-        msg += f'\n"{subject}"\n\n'
-        msg += cl_data.get('message')
-
-        return subject, msg
-
-    def send(self):
-
-        subject, msg = self.get_info()
+    def send_email(self):
+        name = self.cleaned_data["name"]
+        email = self.cleaned_data["email"]
+        phone = self.cleaned_data["phone"]
+        message = self.cleaned_data["message"]
 
         send_mail(
-            subject=subject,
-            message=msg,
+            subject=f"Message from {name} (email: {email}, tel: {phone})",
+            message=message,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.RECIPIENT_ADDRESS]
+            recipient_list=[settings.RECIPIENT_ADDRESS],
         )
