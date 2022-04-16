@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "imagekit",
     "crispy_forms",
     "crispy_bootstrap5",
+    "fontawesomefree",
     # local apps
     "users",
     "hotels",
