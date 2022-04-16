@@ -1,32 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block content %}
+{% block extrastyles %}
 <style>
-.photo_home > img {
-    width:100%;
-    position:relative;
-    }
-    .text{
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size:250%;
-    font-weight:bold;
-    color:red;
-    background-color:rgb(0 , 0 ,0);
-    width:88.5%;
-    text-align:center;
-    }
+#map {
+    height: 400px;
+    width: 100%;
+    border: 1px solid black;
+}
 </style>
-<div class="main-photo">
-    <div class="photo_home">
-      <img src="{% static 'image/contacte.png'%}">
-    </div>
-    <div class="text">-Contact-</div>
-  </div>
-
+{% endblock extrastyles %}
+{% block content %}
+<div id="map"></div>
 <div class="container">
     <h1>TELEPHONE & MAIL
         P: +90 242 352 27 00
@@ -44,7 +29,9 @@
     <button class="btn btn-success my-3" type="submit">Send message</button>
     </form>
 </div>
-
-
-
 {% endblock %}
+
+{% block extrascripts %}
+<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly&channel=2" async></script>
+<script src="{% static 'scripts/contact_map.js' %}"></script>
+{% endblock extrascripts %}

@@ -14,6 +14,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% endblock styles %}
     {% block extrastyles %}{% endblock extrastyles %}
   </head>
@@ -71,7 +72,7 @@
       </nav>
     </header>
 
-    <div class="container">{% block content %} {% endblock content %}</div>
+    <main class="container">{% block content %}{% endblock content %}</main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
